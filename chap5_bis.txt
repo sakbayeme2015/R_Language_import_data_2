@@ -1,0 +1,39 @@
+haven
+
+SAS, STATA and SPSS 
+ReadStat 
+
+read_stata(), read_dta()
+
+> ontime <- read_stata('ontime.dta') 
+> ontime <- read_dta('ontime.dta') 
+
+> install.packages('haven') 
+> library(haven) 
+
+> ontime <- read_sas("ontime.sas7bdat") 
+
+> str(ontime) 
+> ontime
+
+
+> as_factor(ontime$Airline) 
+ 
+> as.character(as_factor(ontime$Airline)) 
+
+> read_spss(), read_por(), read_sav(), 
+
+> read_sav(file.path("~","datasets","ontime.sav")) 
+
+> install.packages("foreign") 
+> library(foreign) 
+
+> ontime <- read.dta(file, 
+                     convert.factors = TRUE, 
+                     convert.dates = TRUE, 
+                     missing.type = FALSE) 
+
+> read.spss(file, 
+            use.value.labels = TRUE, 
+            to.data.frame = FALSE) 
+

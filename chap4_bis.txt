@@ -1,0 +1,31 @@
+
+library(RJSONIO)
+library(RCurl)
+json_file = getURL("https://raw.githubusercontent.com/isrini/SI_IS607/master/books.json")
+json_file2 = RJSONIO::fromJSON(json_file)
+head(json_file2)
+
+
+
+
+> install.packages('jsonlite') 
+> library(jsonlite) 
+
+> fromJSON("http://www.omdbapi.com/?i=tt/////////&r=json") 
+
+> x <- "file.json" 
+
+> r <- fromJSON(x) 
+
+> str(r) 
+
+> fromJSON('[{"id":1, "name":"Franck"},
+             {"id":4, "name":"Julie"}]') 
+
+> tojSON() 
+> prettify() 
+> minify() 
+
+
+
+

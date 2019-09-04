@@ -1,0 +1,17 @@
+> read.csv("path/to/states.csv") 
+
+> read.csv("http://s3.xxxx.com/...../states.csv") 
+
+> read.csv("https://s3.xxxx.com/...../states.csv") 
+
+> library(readxl) 
+
+> url <- "http://s3.xxxxx.com/cities.xlsx" 
+
+> dest_path <- file.path("~", "local_cities.xlsx") 
+
+> download.file(url, dest_path) 
+
+> read_excel(dest_path) 
+
+

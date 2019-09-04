@@ -1,0 +1,137 @@
+> install.packages('RMySQL')
+> library(DBI)
+
+> con <- dbConnect(RMySQL::MySQL(),
+          dbname = "company",
+          host = "courses.csrrinzqubik.us-east-1.rds.amazonaws.com",
+          port = 3306,
+          user = "student",
+          password = "datacamp")
+
+> employees <- dbReadTable(con, "employees") 
+
+> subset(employees, 
+         subset = started_at > "2012-09-01", 
+         select = name) 
+
+> dbGetQuery(con, "SELECT name FROM employees WHERE started_at > \"2012-09-01\"") 
+
+> products <- dbReadTable(con, "products") 
+
+> subset(products, subset = contract == 1) 
+
+> dbGetQuery(con, "SELECT * FROM products WHERE contract = 1") 
+
+> res <- dbSendQuery(con, "SELECT * FROM products WHERE contract = 1") 
+
+> dbFetch(res) 
+
+> dbClearResult(res) 
+
+> res <- dbSendQuery(con, "SELECT * FROM products WHERE contract = 1") 
+
+> while(!dbHasComplete(res)) { 
+   chunk <- dbFetch(res, n = 1)
+   print(chunk) 
+  } 
+
+> dbDisconnect(con) 
+
+
+
+
+----------------------------------------------------------------------------------------------
+
+ con <- dbConnect(RMySQL::MySQL(), 
++                  dbname = "tweater", 
++                  host = "courses.csrrinzqubik.us-east-1.rds.amazonaws.com", 
++                  port = 3306, 
++                  user = "student", 
++                  password = "datacamp") 
+> tables <- dbListTables(con) 
+> print(tables) 
+[1] "comments" "tweats"   "users"   
+> elisabeth <- dbGetQuery(con, "SELECT * from users") 
+> print(elisabeth) 
+  id      name     login
+1  1 elisabeth  elismith
+2  2      mike     mikey
+3  3      thea   teatime
+4  4    thomas tomatotom
+5  5    oliver olivander
+6  6      kate  katebenn
+7  7    anjali    lianja
+> elisabeth <- dbGetQuery(con, "SELECT name from users where id > 3")  
+> print(elisabeth) 
+    name
+1 thomas
+2 oliver
+3   kate
+4 anjali
+> elisabeth <- dbGetQuery(con, "SELECT * from comments") 
+> print(elisabeth) 
+     id tweat_id user_id            message
+1  1022       87       7              nice!
+2  1000       77       7             great!
+3  1011       49       5            love it
+4  1012       87       1   awesome! thanks!
+5  1010       88       6              yuck!
+6  1026       77       4      not my thing!
+7  1004       49       1  this is fabulous!
+8  1030       75       6           so easy!
+9  1025       88       2             oh yes
+10 1007       49       3           serious?
+11 1020       77       1 couldn't be better
+12 1014       77       1       saved my day
+> elisabeth <- dbGetQuery(con, "SELECT tweat_id from comments where tweat_id = 77") 
+> print(elisabeth) 
+  tweat_id
+1       77
+2       77
+3       77
+4       77
+> elisabeth <- dbGetQuery(con, "SELECT message from comments where tweat_id = 77") 
+> print(elisabeth) 
+             message
+1             great!
+2      not my thing!
+3 couldn't be better
+4       saved my day
+> elisabeth <- dbGetQuery(con, "SELECT message from comments where tweat_id = 77 and user_id > 2")  
+> print(elisabeth) 
+        message
+1        great!
+2 not my thing!
+> elisabeth <- dbGetQuery(con, "SELECT message from comments where char_length(message) < 2") 
+> print(elisabeth) 
+[1] message
+<0 rows> (or 0-length row.names)
+> elisabeth <- dbGetQuery(con, "SELECT message from comments where char_length(message) > 2") 
+> print(elisabeth) 
+              message
+1               nice!
+2              great!
+3             love it
+4    awesome! thanks!
+5               yuck!
+6       not my thing!
+7   this is fabulous!
+8            so easy!
+9              oh yes
+10           serious?
+11 couldn't be better
+12       saved my day
+> elisabeth <- dbSendQuery(con, "SELECT * from comments where user_id > 4") 
+> dbFetch(elisabeth, n = 2) 
+    id tweat_id user_id message
+1 1022       87       7   nice!
+2 1000       77       7  great!
+> dbFetch(elisabeth) 
+    id tweat_id user_id  message
+1 1011       49       5  love it
+2 1010       88       6    yuck!
+3 1030       75       6 so easy!
+> dbClearResult(elisabeth) 
+[1] TRUE
+> 
+
